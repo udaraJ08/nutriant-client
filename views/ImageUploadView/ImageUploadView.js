@@ -4,7 +4,12 @@ import {Box, Image} from 'native-base';
 import fallBack from '../../assets/utils-images/img_1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ImageUploadView = () => {
+const ImageUploadView = ({navigation}) => {
+  //routes
+  const navigateToArchive = () => {
+    navigation.navigate('archive');
+  };
+
   return (
     <Box>
       <Box style={style.mainContainer}>
@@ -46,7 +51,7 @@ const ImageUploadView = () => {
           </TouchableOpacity>
         </Box>
       </Box>
-      <TouchableOpacity style={[style.archiveBtn]}>
+      <TouchableOpacity onPress={navigateToArchive} style={[style.archiveBtn]}>
         <Box style={[style.center]}>
           <Icon name="building-o" size={25} color="white" />
         </Box>

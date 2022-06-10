@@ -6,51 +6,68 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ImageUploadView = () => {
   return (
-    <Box style={style.mainContainer}>
-      <Box style={style.innerContainer}>
-        {' '}
-        <Box style={[style.topic, style.center]}>
-          <Text style={[style.fontSmall, style.textTopic]}>
-            Upload image
-          </Text>
-        </Box>
-        <Box style={[style.imageUpload, style.center]}>
-          <Image
-            style={[style.imageUp]}
-            source={fallBack}
-            alt="fallback-image"
-          />
-        </Box>
-        <Box style={[style.typeContainer]}>
-          <TouchableOpacity>
-            <Box style={[style.imageBtn, style.takeImage]}>
-              <Icon name="camera" size={30} color="white" />
-            </Box>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Box style={[style.imageBtn, style.galleryImageBtn]}>
-              <Icon name="image" size={30} color="white" />
-            </Box>
-          </TouchableOpacity>
-        </Box>
-        <TouchableOpacity>
-          <Box style={[style.searchBtn, style.center]}>
-            <Text
-              style={{
-                color: 'white',
-                fontFamily: 'sans-serif-medium',
-                fontSize: 15,
-              }}>
-              SEARCH
-            </Text>
+    <Box>
+      <Box style={style.mainContainer}>
+        <Box style={style.innerContainer}>
+          {' '}
+          <Box style={[style.topic, style.center]}>
+            <Text style={[style.fontSmall, style.textTopic]}>Upload image</Text>
           </Box>
-        </TouchableOpacity>
+          <Box style={[style.imageUpload, style.center]}>
+            <Image
+              style={[style.imageUp]}
+              source={fallBack}
+              alt="fallback-image"
+            />
+          </Box>
+          <Box style={[style.typeContainer]}>
+            <TouchableOpacity>
+              <Box style={[style.imageBtn, style.takeImage]}>
+                <Icon name="camera" size={30} color="white" />
+              </Box>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Box style={[style.imageBtn, style.galleryImageBtn]}>
+                <Icon name="image" size={30} color="white" />
+              </Box>
+            </TouchableOpacity>
+          </Box>
+          <TouchableOpacity c>
+            <Box style={[style.searchBtn, style.center]}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontFamily: 'sans-serif-medium',
+                  fontSize: 15,
+                }}>
+                SEARCH
+              </Text>
+            </Box>
+          </TouchableOpacity>
+        </Box>
       </Box>
+      <TouchableOpacity style={[style.archiveBtn]}>
+        <Box style={[style.center]}>
+          <Icon name="building-o" size={25} color="white" />
+        </Box>
+      </TouchableOpacity>
     </Box>
   );
 };
 
 const style = StyleSheet.create({
+  archiveBtn: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    borderRadius: 1000,
+    backgroundColor: '#0984e3',
+    borderColor: 'white',
+    padding: 15,
+    paddingLeft: 18,
+    paddingRight: 18,
+    borderWidth: 2,
+  },
   imageBtn: {
     borderRadius: 1000,
     padding: 15,

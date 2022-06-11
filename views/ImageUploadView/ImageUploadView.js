@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {Box, Image} from 'native-base';
+import {Box, Image, StatusBar} from 'native-base';
 import fallBack from '../../assets/utils-images/img_1.png';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -12,6 +12,11 @@ const ImageUploadView = ({navigation}) => {
 
   return (
     <Box>
+      <StatusBar
+        animated={true}
+        backgroundColor="#3867d6"
+        barStyle="light-content"
+      />
       <Box style={style.mainContainer}>
         <Box style={style.innerContainer}>
           {' '}

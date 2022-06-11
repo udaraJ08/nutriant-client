@@ -14,7 +14,7 @@ const App = () => {
       <StatusBar animated={true} backgroundColor="#3867d6" />
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="home"
+          initialRouteName="archive"
           screenOptions={{
             headerShown: false,
           }}>

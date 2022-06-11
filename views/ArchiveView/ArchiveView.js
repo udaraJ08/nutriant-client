@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Input, StatusBar, Text} from 'native-base';
+import {Box, Input, StatusBar} from 'native-base';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import FruitCard from '../../components/Archive/FruitCard';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -33,14 +33,14 @@ const ArchiveView = ({navigation}) => {
               flexWrap: 'wrap',
               marginBottom: 10,
             }}>
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
-            <FruitCard />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
+            <FruitCard navigation={navigation} />
           </Box>
         </ScrollView>
       </Box>

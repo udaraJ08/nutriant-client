@@ -2,7 +2,11 @@ import React from 'react';
 import {Box, Image, Text} from 'native-base';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
-const FruitCard = () => {
+const FruitCard = ({navigation}) => {
+  const navigateToDetails = () => {
+    navigation.navigate('details');
+  };
+
   return (
     <Box style={[style.mainContainer, {backgroundColor: 'white'}]}>
       <Box style={[style.center]}>
@@ -18,7 +22,7 @@ const FruitCard = () => {
         />
       </Box>
       <Box style={[style.center]}>
-        <TouchableOpacity style={[style.btn]}>
+        <TouchableOpacity onPress={navigateToDetails} style={[style.btn]}>
           <Text style={[style.btnText]}>details</Text>
         </TouchableOpacity>
       </Box>

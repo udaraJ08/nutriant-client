@@ -15,7 +15,7 @@ const ImageUploadView = ({navigation}) => {
       <StatusBar
         animated={true}
         backgroundColor="#3867d6"
-        barStyle="light-content"
+        barStyle="dark-content"
       />
       <Box style={style.mainContainer}>
         <Box style={style.innerContainer}>

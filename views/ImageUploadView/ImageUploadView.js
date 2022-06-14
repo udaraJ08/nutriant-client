@@ -15,12 +15,12 @@ const ImageUploadView = ({navigation}) => {
       <StatusBar
         animated={true}
         backgroundColor="#3867d6"
-        barStyle="dark-content"
+        barStyle="light-content"
       />
       <Box style={style.mainContainer}>
         <Box style={style.innerContainer}>
           {' '}
-          <Box style={[style.topic, style.center]}>
+          <Box style={[style.topic]}>
             <Text style={[style.fontSmall, style.textTopic]}>Upload image</Text>
           </Box>
           <Box style={[style.imageUpload, style.center]}>
@@ -121,6 +121,7 @@ const style = StyleSheet.create({
   },
   topic: {
     flex: 1,
+    justifyContent: 'center',
   },
   imageUpload: {
     flex: 3,
@@ -133,10 +134,10 @@ const style = StyleSheet.create({
   },
   textTopic: {
     color: 'white',
-    fontFamily: 'sans-serif-medium',
+    fontFamily: 'sans-serif-light',
   },
   fontSmall: {
-    fontSize: 20,
+    fontSize: 25,
   },
 });
 

@@ -160,7 +160,7 @@ const FruitDetailsView = ({navigation}) => {
         onPress={navigateToRealTime}
         style={[style.realTimeBtn]}>
         <Box style={[style.center]}>
-          <Icon name="camera" size={25} color="white" />W
+          <Icon name="camera" size={25} color="white" />
         </Box>
       </TouchableOpacity>
       <TouchableOpacity onPress={navigateBack} style={[style.backBtn]}>

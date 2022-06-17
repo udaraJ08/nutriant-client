@@ -204,7 +204,7 @@ const style = StyleSheet.create({
     color: '#5d5d5d',
   },
   subTitle: {
-    color: '#0668b4',
+    color: '#fa8231',
     fontSize: 15,
     marginTop: 0,
   },
@@ -219,7 +219,7 @@ const style = StyleSheet.create({
     fontSize: 16,
   },
   headerTopic: {
-    color: '#0984e3',
+    color: '#fa8231',
     fontSize: 50,
     marginTop: 10,
     fontWeight: 'bold',

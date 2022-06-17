@@ -1,13 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Input, StatusBar} from 'native-base';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import FruitCard from '../../components/Archive/FruitCard';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from '../../axios/axios';
 
 const ArchiveView = ({navigation}) => {
+  const [data, setData] = useState();
+
+  //routes
   const navigateHome = () => {
     navigation.navigate('home');
   };
+
+  //API callings
+  const fetchAllFruits = async () => {
+    alert(0);
+    await axios
+      .get('/fruits')
+      .then(res => {
+        alert('reached');
+        setData(res.data);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  };
+
+  useEffect(() => {
+    fetchAllFruits();
+  }, []);
 
   return (
     <Box style={style.mainContainer}>
@@ -33,14 +55,9 @@ const ArchiveView = ({navigation}) => {
               flexWrap: 'wrap',
               marginBottom: 10,
             }}>
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
+            {data?.map((e, index) => {
+              return <FruitCard key={index} navigation={navigation} data={e} />;
+            })}
           </Box>
         </ScrollView>
       </Box>

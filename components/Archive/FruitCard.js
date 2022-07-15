@@ -2,9 +2,9 @@ import React from 'react';
 import {Box, Image, Text} from 'native-base';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
-const FruitCard = ({navigation, data}) => {
+const FruitCard = ({navigation, data, id}) => {
   const navigateToDetails = () => {
-    navigation.navigate('details');
+    navigation.navigate('details', {id});
   };
 
   return (

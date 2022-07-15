@@ -1,9 +1,15 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Image, Progress, StatusBar, Text} from 'native-base';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from '../../axios/axios';
+import CookDataLoader from '../../components/loaders/CookDataLoader';
 
-const FruitDetailsView = ({navigation}) => {
+const FruitDetailsView = ({route, navigation}) => {
+  //states
+  const [data, setData] = useState();
+  const [loader, setLoader] = useState(false);
+
   //routes
   const navigateToArchive = () => {
     navigation.navigate('archive');
@@ -17,6 +23,26 @@ const FruitDetailsView = ({navigation}) => {
     navigation.goBack();
   };
 
+  //API callings
+  const fetchFruitByID = async () => {
+    setLoader(true);
+    await axios
+      .get(`/fruits/${route.params.id}`)
+      .then(res => {
+        setData(res.data);
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchFruitByID();
+  }, []);
+
   return (
     <Box style={[style.mainContainer]}>
       <StatusBar
@@ -24,132 +50,155 @@ const FruitDetailsView = ({navigation}) => {
         backgroundColor="white"
         barStyle="dark-content"
       />
-      <Box style={[style.headerContainer]}>
-        <Image
-          style={[style.headerImage]}
-          alt="mango"
-          source={{
-            uri: 'https://media.istockphoto.com/photos/mango-picture-id168370138?k=20&m=168370138&s=612x612&w=0&h=yZRNE3sEWMoFNHI0vQWvn4baLwjLK35MWqbN6j-kM5Y=',
-          }}
-        />
-      </Box>
       <Box style={[style.detailsContainer]}>
-        <Text style={[style.headerTopic]}>Mango</Text>
-        <Text style={[style.subTitle]}>"Be sweet as a mango"</Text>
-        <ScrollView style={{marginTop: 20}}>
-          <Text style={[style.description]}>
-            A mango is an edible stone fruit produced by the tropical tree
-            Mangifera indica which is believed to have originated from the
-            region between northwestern Myanmar, Bangladesh, and northeastern
-            India.
-          </Text>
-          <Text style={[style.subTopics, {marginTop: 40}]}>General</Text>
-          <Box style={{marginTop: 10}}>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[style.options, style.fontWeight, style.textSemiDark]}>
-                1. Name
-              </Text>
-              <Text style={[style.options]}>Mango</Text>
+        {loader ? (
+          <CookDataLoader color={'black'} />
+        ) : (
+          <>
+            <Box style={[style.headerContainer]}>
+              <Image
+                style={[style.headerImage]}
+                alt="mango"
+                source={{
+                  uri: data?.image,
+                }}
+              />
             </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[style.options, style.fontWeight, style.textSemiDark]}>
-                2. Genes
-              </Text>
-              <Text style={[style.options]}>Mangifera</Text>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[style.options, style.fontWeight, style.textSemiDark]}>
-                3. Family
-              </Text>
-              <Text style={[style.options]}>Anacardiaceae</Text>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[style.options, style.fontWeight, style.textSemiDark]}>
-                3. Order
-              </Text>
-              <Text style={[style.options]}>Sapindales</Text>
-            </Box>
-          </Box>
-          <Box style={{marginTop: 10}}>
-            <Text style={[style.subTopics, {marginTop: 20}]}>Nutrition</Text>
-          </Box>
-          <Box style={{marginTop: 10}}>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[
-                  style.options,
-                  style.fontWeight,
-                  style.textSemiDark,
-                  {fontSize: 14},
-                ]}>
-                1. carbohydrates ({15}g)
-              </Text>
-              <Box style={{width: '40%', marginTop: 20}}>
-                <Progress size="xs" mb={4} value={25} />
+            <Text style={[style.headerTopic, {color: data?.color}]}>
+              {data?.name}
+            </Text>
+            <Text style={[style.subTitle]}>"{data?.subTitle}"</Text>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{marginTop: 20}}>
+              <Text style={[style.description]}>{data?.description}</Text>
+              <Text style={[style.subTopics, {marginTop: 40}]}>General</Text>
+              <Box style={{marginTop: 10}}>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                    ]}>
+                    1. Name
+                  </Text>
+                  <Text style={[style.options]}>{data?.gen_name}</Text>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                    ]}>
+                    2. Genes
+                  </Text>
+                  <Text style={[style.options]}>{data?.gen_genes}</Text>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                    ]}>
+                    3. Family
+                  </Text>
+                  <Text style={[style.options]}>{data?.gen_family}</Text>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                    ]}>
+                    3. Order
+                  </Text>
+                  <Text style={[style.options]}>{data?.gen_order}</Text>
+                </Box>
               </Box>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[
-                  style.options,
-                  style.fontWeight,
-                  style.textSemiDark,
-                  {fontSize: 15},
-                ]}>
-                2. protein (0.82g)
-              </Text>
-              <Box style={{width: '40%', marginTop: 20}}>
-                <Progress size="xs" mb={4} value={25} />
+              <Box style={{marginTop: 10}}>
+                <Text style={[style.subTopics, {marginTop: 20}]}>
+                  Nutrition
+                </Text>
               </Box>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[
-                  style.options,
-                  style.fontWeight,
-                  style.textSemiDark,
-                  {fontSize: 15},
-                ]}>
-                3. fat (0.38g)
-              </Text>
-              <Box style={{width: '40%', marginTop: 20}}>
-                <Progress size="xs" mb={4} value={0.25 * 100} mx={1} />
+              <Box style={{marginTop: 10}}>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                      {fontSize: 14},
+                    ]}>
+                    1. carbohydrates ({data?.carbohydrates}g)
+                  </Text>
+                  <Box style={{width: '40%', marginTop: 20}}>
+                    <Progress size="xs" mb={4} value={data?.carbohydrates} />
+                  </Box>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                      {fontSize: 15},
+                    ]}>
+                    2. protein ({data?.protein}g)
+                  </Text>
+                  <Box style={{width: '40%', marginTop: 20}}>
+                    <Progress size="xs" mb={4} value={data?.protein} />
+                  </Box>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                      {fontSize: 15},
+                    ]}>
+                    3. fat ({data?.fat}g)
+                  </Text>
+                  <Box style={{width: '40%', marginTop: 20}}>
+                    <Progress size="xs" mb={4} value={data?.fat * 100} mx={1} />
+                  </Box>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                      {fontSize: 15},
+                    ]}>
+                    4. calories ({data?.calories}cal)
+                  </Text>
+                  <Box style={{width: '40%', marginTop: 20}}>
+                    <Progress size="xs" mb={4} value={data?.calories} />
+                  </Box>
+                </Box>
+                <Box style={[style.optionBox]}>
+                  <Text
+                    style={[
+                      style.options,
+                      style.fontWeight,
+                      style.textSemiDark,
+                      {fontSize: 15},
+                    ]}>
+                    5. sugar ({data?.sugar}g)
+                  </Text>
+                  <Box style={{width: '40%', marginTop: 20}}>
+                    <Progress size="xs" mb={4} value={data?.sugar} />
+                  </Box>
+                </Box>
               </Box>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[
-                  style.options,
-                  style.fontWeight,
-                  style.textSemiDark,
-                  {fontSize: 15},
-                ]}>
-                4. calories (60cal)
-              </Text>
-              <Box style={{width: '40%', marginTop: 20}}>
-                <Progress size="xs" mb={4} value={25} />
-              </Box>
-            </Box>
-            <Box style={[style.optionBox]}>
-              <Text
-                style={[
-                  style.options,
-                  style.fontWeight,
-                  style.textSemiDark,
-                  {fontSize: 15},
-                ]}>
-                5. sugar (13.7g)
-              </Text>
-              <Box style={{width: '40%', marginTop: 20}}>
-                <Progress size="xs" mb={4} value={25} />
-              </Box>
-            </Box>
-          </Box>
-        </ScrollView>
+            </ScrollView>
+          </>
+        )}
       </Box>
       <TouchableOpacity onPress={navigateToArchive} style={[style.archiveBtn]}>
         <Box style={[style.center]}>
@@ -204,7 +253,7 @@ const style = StyleSheet.create({
     color: '#5d5d5d',
   },
   subTitle: {
-    color: '#0668b4',
+    color: '#fa8231',
     fontSize: 15,
     marginTop: 0,
   },
@@ -217,9 +266,9 @@ const style = StyleSheet.create({
   description: {
     color: '#393e46',
     fontSize: 16,
+    textAlign: 'justify',
   },
   headerTopic: {
-    color: '#0984e3',
     fontSize: 50,
     marginTop: 10,
     fontWeight: 'bold',

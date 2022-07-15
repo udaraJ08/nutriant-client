@@ -1,13 +1,39 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Box, Input, StatusBar} from 'native-base';
 import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import FruitCard from '../../components/Archive/FruitCard';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import axios from '../../axios/axios';
+import CookDataLoader from '../../components/loaders/CookDataLoader';
 
 const ArchiveView = ({navigation}) => {
+  const [data, setData] = useState();
+  const [loader, setLoader] = useState(false);
+
+  //routes
   const navigateHome = () => {
     navigation.navigate('home');
   };
+
+  //API callings
+  const fetchAllFruits = async () => {
+    setLoader(true);
+    await axios
+      .get('/fruits')
+      .then(res => {
+        setData(res.data);
+      })
+      .catch(err => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchAllFruits();
+  }, []);
 
   return (
     <Box style={style.mainContainer}>
@@ -25,24 +51,30 @@ const ArchiveView = ({navigation}) => {
             style={[style.searchField]}
           />
         </Box>
-        <ScrollView style={[style.dataContainer]}>
-          <Box
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              marginBottom: 10,
-            }}>
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-            <FruitCard navigation={navigation} />
-          </Box>
-        </ScrollView>
+        {loader ? (
+          <CookDataLoader color={'white'} />
+        ) : (
+          <ScrollView style={[style.dataContainer]}>
+            <Box
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                marginBottom: 10,
+              }}>
+              {data?.map((e, index) => {
+                return (
+                  <FruitCard
+                    key={index}
+                    navigation={navigation}
+                    id={e._id}
+                    data={e}
+                  />
+                );
+              })}
+            </Box>
+          </ScrollView>
+        )}
       </Box>
       <TouchableOpacity onPress={navigateHome} style={[style.realTimeBtn]}>
         <Box style={[style.center]}>
@@ -71,6 +103,7 @@ const style = StyleSheet.create({
   searchField: {
     color: '#444444',
     fontSize: 16,
+    borderRadius: 0,
   },
   bgWhite: {
     backgroundColor: 'white',
@@ -95,7 +128,7 @@ const style = StyleSheet.create({
     paddingRight: 20,
     width: '100%',
     borderRadius: 10,
-    marginBottom: 30,
+    // marginBottom: 30,
   },
   dataContainer: {
     padding: 10,

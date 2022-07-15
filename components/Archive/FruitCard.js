@@ -2,21 +2,21 @@ import React from 'react';
 import {Box, Image, Text} from 'native-base';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
-const FruitCard = ({navigation}) => {
+const FruitCard = ({navigation, data, id}) => {
   const navigateToDetails = () => {
-    navigation.navigate('details');
+    navigation.navigate('details', {id});
   };
 
   return (
     <Box style={[style.mainContainer, {backgroundColor: 'white'}]}>
       <Box style={[style.center]}>
-        <Text style={[style.topic]}>Mango</Text>
+        <Text style={[style.topic]}>{data?.name}</Text>
       </Box>
-      <Box>
+      <Box style={{marginTop: 10}}>
         <Image
           style={style.image}
           source={{
-            uri: 'https://media.istockphoto.com/photos/mango-picture-id168370138?k=20&m=168370138&s=612x612&w=0&h=yZRNE3sEWMoFNHI0vQWvn4baLwjLK35MWqbN6j-kM5Y=',
+            uri: data?.image,
           }}
           alt="apple"
         />
@@ -49,7 +49,7 @@ const style = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: '70%',
+    height: '80%',
   },
   bgWhite: {
     backgroundColor: 'white',
